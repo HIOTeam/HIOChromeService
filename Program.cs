@@ -14,33 +14,25 @@ using Microsoft.Win32;
 using System.IO.MemoryMappedFiles;
 using System.Messaging;
 
-namespace MyProject
+namespace HIOChrome
 {
 
-    // This class represents an object the following example 
-    // sends to a queue and receives from a queue.
+    // This class sends to a queue and receives from a queue.
     public class SendData
     {
         public string label;
         public string data;
     };
 
-
     /// <summary>
-    /// Provides a container class for the example.
+    /// Creates the app service connection
     /// </summary>
-    public class MyNewQueue
+
+    public class ChromeService
     {
         public static string PATHMSGREC = @".\Private$\MSGHIO1Chrome"+ System.Security.Principal.WindowsIdentity.GetCurrent().Name.Split('\\').Last();
         public static  string PATHMSGSEND = @".\Private$\MSGHIO2"+ System.Security.Principal.WindowsIdentity.GetCurrent().Name.Split('\\').Last();
         public static string BROWSER = "Chrome";
-        //**************************************************
-        // Provides an entry point into the application.
-        //		 
-        // This example sends and receives a message from
-        // a queue.
-        //**************************************************
-
         private static AutoResetEvent _signal = new AutoResetEvent(false);
         private static AutoResetEvent _signalRec = new AutoResetEvent(false);
         static bool checkRec = false;
@@ -267,7 +259,6 @@ namespace MyProject
 
                 var json = new JObject();
                 json["data"] = data;
-               // System.Windows.Forms.MessageBox.Show(json.ToString(Formatting.None),"write chrome");
                 var bytes = System.Text.Encoding.UTF8.GetBytes(json.ToString(Formatting.None));
 
                 var stdout = Console.OpenStandardOutput();
